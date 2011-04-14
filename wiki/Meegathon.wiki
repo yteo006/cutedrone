@@ -28,13 +28,13 @@ cd opencv
 sudo apt-get install libqt4-dev libtbb-dev libtbb2 cmake libv4l-dev
 sudo apt-get install libjpeg-dev libtiff-dev libpng-dev libjasper-dev
 sudo apt-get install ffmpeg gstreamer0.10-ffmpeg libxine-dev libunicap2-dev libdc1394-22-dev libavformat-dev libswscale-dev
-sudo apt-get install linux-source
+sudo apt-get install linux-source gstreamer-base-0.10 python-numpy
 }}}
 {{{
 cd ~/meegathon/3rdparty
 mkdir opencv-build
 cd opencv-build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D WITH_V4L=0 -D TBB_INCLUDE_DIRS=/usr/include/tbb ../opencv
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D WITH_V4L=0 -D TBB_INCLUDE_DIRS=/usr/include/tbb -D BUILD_SAMPLES=ON -D PYTHON_INCLUDE_DIRS=/usr/include/python2.7 ../opencv
 make
 }}}
 ===== From repository 2.1 =====
