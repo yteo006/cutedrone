@@ -24,7 +24,7 @@ ln -s OpenCV-2.2.0 opencv
 cd opencv
 }}}
 {{{
-sudo apt-get install libqt4-dev libtbb-dev libtbb2 cmake
+sudo apt-get install libqt4-dev libtbb-dev libtbb2 cmake libv4l-dev
 sudo apt-get install libjpeg-dev libtiff-dev libpng-dev libjasper-dev
 sudo apt-get install ffmpeg gstreamer0.10-ffmpeg libxine-dev libunicap2-dev libdc1394-22-dev libavformat-dev libswscale-dev
 }}}
