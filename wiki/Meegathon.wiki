@@ -1,0 +1,27 @@
+#summary Notes and information for Meegathon
+
+http://summit.meegonetwork.fi/competition
+* WORK IN PROGRESS *
+
+= CuteFace =
+{{{
+cd
+mkdir meegathon
+}}}
+== Development Notes ==
+=== 3rd Party libraries ===
+{{{
+mkdir -p ~/meegathon/3rdparty
+}}}
+==== OpenCV ====
+{{{
+mkdir -p ~/meegathon/3rdparty
+cd ~/meegathon/3rdparty
+wget -c http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.2/OpenCV-2.2.0.tar.bz2/download
+tar -xvjpf OpenCV-2.2.0.tar.bz2
+ln -s OpenCV-2.2.0 opencv
+cd opencv
+}}}
+{{{
+sudo apt-get install libqt4-dev libtbb-dev libtbb2 cmake
+}}}
