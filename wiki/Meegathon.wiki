@@ -40,6 +40,6 @@ make
 }}}
 
 = Links / Sources =
-http://wiki.forum.nokia.com/index.php/Using_OpenCV_with_Qt
-http://note.sonots.com/SciSoftware/haartraining.html
-http://opencv.willowgarage.com/wiki/FaceDetection
+  * http://wiki.forum.nokia.com/index.php/Using_OpenCV_with_Qt
+  * http://note.sonots.com/SciSoftware/haartraining.html
+  * http://opencv.willowgarage.com/wiki/FaceDetection
