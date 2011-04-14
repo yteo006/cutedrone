@@ -34,7 +34,7 @@ sudo apt-get install linux-source
 cd ~/meegathon/3rdparty
 mkdir opencv-build
 cd opencv-build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D TBB_INCLUDE_DIRS=/usr/include/tbb ../opencv
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D WITH_V4L=0 -D TBB_INCLUDE_DIRS=/usr/include/tbb ../opencv
 make
 }}}
 ===== From repository 2.1 =====
