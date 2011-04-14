@@ -33,4 +33,5 @@ cd ~/meegathon/3rdparty
 mkdir opencv-build
 cd opencv-build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON ../opencv
+make
 }}}
