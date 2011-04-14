@@ -14,7 +14,7 @@ mkdir meegathon
 mkdir -p ~/meegathon/3rdparty
 }}}
 ==== OpenCV ====
-===== From source =====
+===== From source 2.2 =====
 http://opencv.willowgarage.com/wiki/InstallGuide
 {{{
 mkdir -p ~/meegathon/3rdparty
@@ -37,7 +37,7 @@ cd opencv-build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D TBB_INCLUDE_DIRS=/usr/include/tbb ../opencv
 make
 }}}
-===== From repository =====
+===== From repository 2.1 =====
 {{{
 sudo apt-get install libcv-dev
 }}}
