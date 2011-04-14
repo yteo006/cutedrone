@@ -4,6 +4,7 @@ http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
 
 = CuteFace =
+http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
 {{{
 cd
 mkdir meegathon
