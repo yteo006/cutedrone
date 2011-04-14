@@ -6,3 +6,4 @@ default:
 clean:
 	rm -f opencv
 	rm -fR OpenCV-2.2.0*
+	rm -fR opencv-build/
