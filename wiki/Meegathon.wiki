@@ -14,6 +14,7 @@ mkdir meegathon
 mkdir -p ~/meegathon/3rdparty
 }}}
 ==== OpenCV ====
+===== From source =====
 http://opencv.willowgarage.com/wiki/InstallGuide
 {{{
 mkdir -p ~/meegathon/3rdparty
@@ -27,11 +28,16 @@ cd opencv
 sudo apt-get install libqt4-dev libtbb-dev libtbb2 cmake libv4l-dev
 sudo apt-get install libjpeg-dev libtiff-dev libpng-dev libjasper-dev
 sudo apt-get install ffmpeg gstreamer0.10-ffmpeg libxine-dev libunicap2-dev libdc1394-22-dev libavformat-dev libswscale-dev
+sudo apt-get install linux-source
 }}}
 {{{
 cd ~/meegathon/3rdparty
 mkdir opencv-build
 cd opencv-build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON ../opencv
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D TBB_INCLUDE_DIRS=/usr/include/tbb ../opencv
 make
+}}}
+===== From repository =====
+{{{
+sudo apt-get install libcv-dev
 }}}
