@@ -5,6 +5,7 @@ http://summit.meegonetwork.fi/competition
 
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
+http://cutedrone.googlecode.com/svn/trunk/cuteface.png
 {{{
 cd
 mkdir meegathon
