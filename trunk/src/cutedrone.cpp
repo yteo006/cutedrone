@@ -89,11 +89,11 @@ void CuteDrone::run() {
     connect(telemetrySender,SIGNAL(bytesWritten(qint64)),this,SLOT(commandSent(qint64)));
 
     m_iStartBit = (1<<18)|(1<<20)|(1<<22)|(1<<24)|(1<<28);
-
     setHorizontalLevel();
-    QThread::msleep(500);
+    QThread::msleep(200);
     receive_video();
-    QThread::msleep(500);
+    QThread::msleep(200);
+
 /*
     takeOff();
     int wait = 0;
@@ -142,15 +142,48 @@ void CuteDrone::run() {
 }
 
 void CuteDrone::turnLeft() {
-    setDroneControl(0,0,-150,0);
+    receive_video();
+    setDroneControl(0,0,-50,0);
 }
 
 void CuteDrone::turnRight() {
-    setDroneControl(0,0,150,0);
+    receive_video();
+    setDroneControl(0,0,50,0);
 }
 
 void CuteDrone::stay() {
+    receive_video();
     setDroneControl(0,0,0,0);
+}
+
+void CuteDrone::forward() {
+    receive_video();
+    setDroneControl(-50,0,0,0);
+}
+
+void CuteDrone::backward() {
+    receive_video();
+    setDroneControl(50,0,0,0);
+}
+
+void CuteDrone::moveLeft() {
+    receive_video();
+    setDroneControl(0,50,0,0);
+}
+
+void CuteDrone::moveRight() {
+    receive_video();
+    setDroneControl(0,-50,0,0);
+}
+
+void CuteDrone::higher() {
+    receive_video();
+    setDroneControl(0,0,0,50);
+}
+
+void CuteDrone::lower() {
+    receive_video();
+    setDroneControl(0,0,0,-50);
 }
 
 
@@ -280,6 +313,10 @@ void CuteDrone::land() {
 void CuteDrone::takeOff() {
     qDebug() << ">>" << __PRETTY_FUNCTION__;
              m_iStartBit=m_iStartBit|(1<<9);
+     setHorizontalLevel();
+     QThread::msleep(200);
+     receive_video();
+     QThread::msleep(200);
      ////////////////////////////////////
      // Lets take off
      QString cmd("AT*REF=%0,%1\r");

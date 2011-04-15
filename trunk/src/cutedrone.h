@@ -37,6 +37,12 @@ public slots:
     void turnLeft();
     void turnRight();
     void stay();
+    void forward();
+    void backward();
+    void moveLeft();
+    void moveRight();
+    void higher();
+    void lower();
 
 protected slots:
     void telemetryReady();
