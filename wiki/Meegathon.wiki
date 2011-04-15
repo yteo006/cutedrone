@@ -32,8 +32,13 @@ sudo mad-admin create -f meego-netbook-ia32-1.1
 
 = Setting up the target hardware notebook =
 == Asus EeePC 901 ==
-  * Install sshd
-  * sudo service sshd start
+{{{
+sudo zypper install openssh-server
+sudo service sshd start
+sudo chkconfig --add sshd
+sudo zypper install gdb-gdbserver
+xhost +SI:localuser:root
+}}}
   
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
@@ -79,3 +84,4 @@ make
   * http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/12/23/ar-drone-with-meego
   * https://garage.maemo.org/projects/mardrone
   * http://mardrone.garage.maemo.org/
+  * http://wiki.meego.com/SDK/Docs/1.1/Setting_up_Netbook
