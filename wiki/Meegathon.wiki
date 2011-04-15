@@ -56,6 +56,8 @@ sudo /usr/sbin/connmand -W nl80211,wext
 {{{
 sudo iwconfig wlan0 mode ad-hoc essid ardrone_[id]
 }}}
+==== Does not work for EeePC 901 ====
+It seems that there are sever issues with the wlan adapter..
 
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
