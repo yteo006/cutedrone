@@ -5,7 +5,10 @@ http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
 
 = Screenshots =
-[tba]
+see project frontpage.
+
+= Deploy from QtCreator to MeeGo 1.1 Netbook =
+<video url="http://www.youtube.com/watch?v=ZPgKb_1hMnk" />
 
 ----
 = Scripts available =
