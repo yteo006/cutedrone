@@ -45,6 +45,11 @@ sudo ifconfig wlan0 up
 sudo pkill connmand
 sudo /usr/sbin/connmand -W nl80211,wext
 }}}  
+=== Connecting to AR.Drone ===
+{{{
+sudo iwconfig wlan0 mode ad-hoc essid ardrone_[id]
+}}}
+
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
 {{{
