@@ -1,4 +1,5 @@
 #summary Notes and information for Meegathon competition entry quick-and-dirty cuteface
+<wiki:toc max_depth="3" />
 
 http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
