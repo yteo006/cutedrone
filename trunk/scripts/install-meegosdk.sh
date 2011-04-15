@@ -10,4 +10,3 @@ if [[ -z $VERIFIED ]]; then
 fi
 
 sudo apt-get install meego-sdk --force-yes --yes
-

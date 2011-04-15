@@ -46,6 +46,9 @@ protected slots:
 
     void takeOff();
     void land();
+    void exit_bootstrap_mode();
+    void receive_video();
+    void receive_telemetry();
 
 protected:
     QHostAddress* address;
@@ -58,6 +61,9 @@ protected:
     QFile video;
     bool bInitialized;
     int counter;
+    int m_iStartBit;
+
+    static const char triggerByte[4];
 };
 
 #endif // CUTEDRONE_H
