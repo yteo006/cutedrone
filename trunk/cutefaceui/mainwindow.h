@@ -18,6 +18,11 @@ public:
 
 public slots:
     void updateImage(QImage img);
+    void on_pushButtonTurnLeft_clicked() { drone->turnLeft(); }
+    void on_pushButtonTurnRight_clicked() { drone->turnRight(); }
+    void on_pushButtonStay_clicked() { drone->stay(); }
+    void on_pushButtonLand_clicked() { drone->land(); }
+    void on_pushButtonTakeOff_clicked() { drone->takeOff(); }
 
 private:
     Ui::MainWindow *ui;
