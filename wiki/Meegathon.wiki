@@ -5,7 +5,6 @@ http://summit.meegonetwork.fi/competition
 
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
-http://cutedrone.googlecode.com/svn/trunk/cuteface.png
 {{{
 cd
 mkdir meegathon
@@ -43,3 +42,4 @@ make
   * http://wiki.forum.nokia.com/index.php/Using_OpenCV_with_Qt
   * http://note.sonots.com/SciSoftware/haartraining.html
   * http://opencv.willowgarage.com/wiki/FaceDetection
+  * http://wiki.meego.com/SDK/Docs/1.1/Getting_started_with_the_MeeGo_SDK_for_Linux
