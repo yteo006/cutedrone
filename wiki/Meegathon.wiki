@@ -3,6 +3,22 @@
 http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
 
+= Installing MeeGo SDK =
+== Add repository ==
+{{{
+deb http://repo.meego.com/MeeGo/sdk/host/repos/ubuntu/10.10/   /
+gpg --keyserver pgpkeys.mit.edu --recv 0BC7BEC479FC1F8A
+gpg --export --armor 0BC7BEC479FC1F8A | sudo apt-key add -
+sudo apt-get update
+}}}
+== Confirm repository ==
+{{{
+apt-cache policy madde
+}}}
+== Install SDK ==
+{{{
+sudo apt-get install meego-sdk
+}}}
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
 {{{
