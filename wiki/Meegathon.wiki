@@ -28,6 +28,12 @@ sudo apt-get install meego-sdk
 {{{
 sudo mad-admin create -f meego-netbook-ia32-1.1
 }}}
+
+= Setting up the target hardware notebook =
+== Asus EeePC 901 ==
+  * Install sshd
+  * sudo service sshd start
+  
 = CuteFace =
 http://code.google.com/p/cutedrone/source/browse/#svn%2Ftrunk
 {{{
