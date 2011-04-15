@@ -3,6 +3,10 @@
 http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
 
+= Scripts available =
+I am producing scripts for the installation etc at the sametime for later usage. Feel free to use them. They are available in svn.
+
+
 = Installing MeeGo SDK =
 Following are my notes from the official MeeGo wiki page. See the Links at the end of this wiki page.
 == Add repository ==
@@ -64,3 +68,4 @@ make
   * http://note.sonots.com/SciSoftware/haartraining.html
   * http://opencv.willowgarage.com/wiki/FaceDetection
   * http://wiki.meego.com/SDK/Docs/1.1/Getting_started_with_the_MeeGo_SDK_for_Linux
+  * http://wiki.meego.com/SDK/Docs/1.1/Configuring_QEMU_runtimes
