@@ -7,31 +7,16 @@
 #include <QThread>
 #include <QFile>
 #include <QTimer>
+#include <QImage>
 #include <navdata_common.h>
+#include <VP_Os/vp_os_malloc.h>
+#include <VP_Os/vp_os_print.h>
+extern "C"
+{
+#include <VLIB/Stages/vlib_stage_decode.h>
+void vp_stages_YUV420P_to_RGB565(void *cfg, vp_api_picture_t *picture, uint8_t *dst, uint32_t dst_rbytes);
 
-#define INT_32 unsigned long
-#define INT_16 unsigned int
-#define INT_8 unsigned char
-
-typedef struct _NAVDATA_OPTION_T {
-    INT_16 id;
-    INT_16 size;
-    INT_8 data;
-} NAVDATA_OPTION_T;
-
-typedef struct _NAVDATA_CHECKSUM_T {
-    INT_16 id;
-    INT_16 size;
-    INT_32 data;
-} NAVDATA_CHECKSUM_T;
-
-typedef struct _NAVDATA_T {
-    INT_32 header;
-    INT_32 droneState;
-    INT_32 sequenceNumber;
-    NAVDATA_OPTION_T options;
-    NAVDATA_CHECKSUM_T checksum;
-} NAVDATA_T;
+}
 
 class CuteDrone : public QThread {
     Q_OBJECT
@@ -46,22 +31,30 @@ public:
         flying
     };
 
+public slots:
+    void takeOff();
+    void land();
+    void turnLeft();
+    void turnRight();
+    void stay();
+
 protected slots:
     void telemetryReady();
     void videoReady();
     void commandSent(qint64);
     void sendCommand(QByteArray);
     void sendNav(QByteArray);
-
+    void decodeTransform(QByteArray &videoData);
     void stateTimerElapsed();
-    void takeOff();
-    void land();
     void exit_bootstrap_mode();
     void receive_video();
     void receive_telemetry();
     void setHorizontalLevel();
     void setDroneControl(float pitch,float roll,float yaw,float vv);
     void setDroneGain(float fgain,float bgain,float lgain,float rgain);
+
+signals:
+    void videoUpdated(QImage);
 
 protected:
     QHostAddress* address;
@@ -73,7 +66,12 @@ protected:
     QTimer* stateTimer;
     QFile log;
     QFile video;
-
+    QImage *image;
+    video_controller_t controller;
+    vp_api_picture_t picture;
+    int pictureWidth;
+    int pictureHeight;
+    unsigned int num_picture_decoded;
     bool bInitialized;
     int counter;
     int m_iStartBit;

@@ -9,7 +9,7 @@ void CuteDrone::initDrone()
        qDebug() << ">> init()";
            this->bInitialized = false;
            log.setFileName("telemetry.txt");
-           video.setFileName("video-drone.bin");
+           //video.setFileName("video-drone.bin");
            this->commandAndControlSocket = new QUdpSocket();
            this->commandAndControlCriticalSocket = new QUdpSocket();
            this->telemetryAndTrackingSocket = new QUdpSocket();
@@ -18,6 +18,10 @@ void CuteDrone::initDrone()
            this->stateTimer->setInterval(200);
            connect(this->stateTimer,SIGNAL(timeout()),this,SLOT(stateTimerElapsed()));
            this->stateTimer->start();
+           //this->image = new QImage(320,240, QImage::Format_RGB32);
+           //this->image->fill(0x555555);
+           image=new QImage(320,240, QImage::Format_RGB16);
+           image->fill(0x5555);
 
            QHostAddress address = QHostAddress::Any;
 
@@ -55,6 +59,23 @@ void CuteDrone::initDrone()
 
 void CuteDrone::run() {
     qDebug() << ">> run()";
+    pictureWidth = 320;
+    pictureHeight = 240;
+    num_picture_decoded=0;
+    /// Picture configuration
+    picture.format        = PIX_FMT_YUV420P;
+    picture.width         = pictureWidth;
+    picture.height        = pictureHeight;
+    picture.framerate     = 30;
+    picture.y_buf         = (uint8_t*)(void*)vp_os_malloc((size_t) pictureWidth*pictureHeight );
+    picture.cr_buf        = (uint8_t*)vp_os_malloc( pictureWidth*pictureHeight/4 );
+    picture.cb_buf        = (uint8_t*)vp_os_malloc( pictureWidth*pictureHeight/4 );
+    picture.y_line_size   = pictureWidth;
+    picture.cb_line_size  = pictureWidth / 2;
+    picture.cr_line_size  = pictureWidth / 2;
+    picture.y_pad         = 0;
+    picture.c_pad         = 0;
+    video_codec_open(&controller, (codec_type_t)UVLC_CODEC);
 
     connect(this->telemetryAndTrackingSocket,SIGNAL(readyRead()),this,SLOT(telemetryReady()));
     connect(this->telemetryAndTrackingSocket,SIGNAL(bytesWritten(qint64)),this,SLOT(commandSent(qint64)));
@@ -71,7 +92,9 @@ void CuteDrone::run() {
 
     setHorizontalLevel();
     QThread::msleep(500);
-
+    receive_video();
+    QThread::msleep(500);
+/*
     takeOff();
     int wait = 0;
     while (wait<10) {
@@ -90,8 +113,16 @@ void CuteDrone::run() {
         wait++;
     }
 
+    // stand still
+    setDroneControl(0,0,0,0);
+    wait = 0;
+    while (wait<5) {
+        QThread::msleep(500);
+        wait++;
+    }
+
     // go left
-     setDroneControl(0,0,-150,0);
+    setDroneControl(0,0,-150,0);
     wait = 0;
     while (wait<5) {
         QThread::msleep(500);
@@ -104,11 +135,24 @@ void CuteDrone::run() {
         QThread::msleep(500);
         wait++;
         land();
-    }
+    }*/
     log.close();
-    video.close();
+   // video.close();
  qDebug() << "<< run()";
 }
+
+void CuteDrone::turnLeft() {
+    setDroneControl(0,0,-150,0);
+}
+
+void CuteDrone::turnRight() {
+    setDroneControl(0,0,150,0);
+}
+
+void CuteDrone::stay() {
+    setDroneControl(0,0,0,0);
+}
+
 
 void CuteDrone::setDroneControl(float pitch,float roll,float yaw,float vv)
 {
@@ -119,8 +163,31 @@ void CuteDrone::setDroneControl(float pitch,float roll,float yaw,float vv)
     qDebug()  << QString("pitch=%1 roll=%2 yaw=%3 vv=%4\r").arg(m_pitch,3,'F',2).arg(m_roll,3,'F',2).arg(m_yaw,3,'F',2).arg(m_vv,3,'F',2);
 };
 
+void CuteDrone::decodeTransform(QByteArray &videoData)
+{
+    controller.in_stream.bytes   = (uint32_t*)videoData.data();
+    controller.in_stream.used    = videoData.size();
+    controller.in_stream.size    = videoData.size();
+    controller.in_stream.index   = 0;
+    controller.in_stream.length  = 32;
+    controller.in_stream.code    = 0;
+    bool_t got_image = FALSE;
+    video_decode_blockline( &controller, &picture, &got_image );
+    if( got_image )
+        {
+          picture.complete     = 1;
+          //num_picture_decoded++;
+          vp_stages_YUV420P_to_RGB565(NULL,&picture,image->bits(),image->bytesPerLine());
+        }
+    emit videoUpdated(*image);
+    //image->save(QString("pic-%0.jpg").arg(num_picture_decoded),"jpg");
+    //qDebug() << "<<" << __PRETTY_FUNCTION__;
+}
+
+
 void CuteDrone::setDroneGain(float fgain,float bgain,float lgain,float rgain)
 {
+
     m_fgain=fgain;
     m_bgain=bgain;
     m_rgain=rgain;
@@ -129,7 +196,7 @@ void CuteDrone::setDroneGain(float fgain,float bgain,float lgain,float rgain)
 
 void CuteDrone::stateTimerElapsed()
 {
-    qDebug() << "thread Timer" << state;
+    //qDebug() << ">>" << __PRETTY_FUNCTION__ << state;
     switch(state) {
         case notInitialized:
             sendNav("AT");
@@ -156,23 +223,29 @@ void CuteDrone::stateTimerElapsed()
             break;
         }
 }
+    //qDebug() << "<<" << __PRETTY_FUNCTION__ << state;
 }
 
 void CuteDrone::receive_telemetry() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
     //////////////////////////////////
     // lets receive the telemetry
     telemetryAndTrackingSocket->writeDatagram(QByteArray::fromRawData(triggerByte,sizeof(triggerByte)),QHostAddress("192.168.1.1"),5554);
+    qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 void CuteDrone::receive_video() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
     // lets receive the video
     this->videoSocket->writeDatagram(QByteArray::fromRawData(triggerByte,sizeof(triggerByte)),QHostAddress("192.168.1.1"),5555);
     QString cmd("AT*CONFIG=%0,\"general:video_enable\",\"TRUE\"\r");
     QByteArray dgram = cmd.arg(counter++).toLatin1();
     sendCommand(dgram);
+    qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 void CuteDrone::exit_bootstrap_mode() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
     //////////////////////////////////7
     // lets exit from bootstrap mode
 
@@ -184,12 +257,14 @@ void CuteDrone::exit_bootstrap_mode() {
     cmd = "AT*CTRL=0\r";
     dgram=cmd.toLatin1();
     sendCommand(dgram);
+    qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 /// we should send this in the background in a loop...
 // AT*COMWDG=1
 
 void CuteDrone::land() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
     m_iStartBit=m_iStartBit&~(1<<9);
     ///////////////////////////////////7
     // lets land the ship
@@ -198,11 +273,12 @@ void CuteDrone::land() {
      sendCommand(dgram);
      dgram = cmd.arg(counter++).arg(m_iStartBit).toLatin1();
      sendCommand(dgram);
+     qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 
 void CuteDrone::takeOff() {
-
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
              m_iStartBit=m_iStartBit|(1<<9);
      ////////////////////////////////////
      // Lets take off
@@ -211,14 +287,18 @@ void CuteDrone::takeOff() {
      sendCommand(dgram);
      dgram = cmd.arg(counter++).arg(m_iStartBit).toLatin1();
      sendCommand(dgram);
+     state = flying;
+     qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 void CuteDrone::setHorizontalLevel() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
         QString cmd("AT*FTRIM=%0\r");
         QByteArray dgram = cmd.arg(counter++).toLatin1();
         sendCommand(dgram);
         dgram = cmd.arg(counter++).toLatin1();
         sendCommand(dgram);
+        qDebug() << "<<" << __PRETTY_FUNCTION__;
 }
 
 void CuteDrone::sendCommand(QByteArray dgram) {
@@ -233,9 +313,10 @@ void CuteDrone::commandSent(qint64 d) {
 }
 
 void CuteDrone::videoReady() {
-    if (video.isOpen()==false) {
+   /* if (video.isOpen()==false) {
         video.open(QIODevice::WriteOnly);
-    }
+    }*/
+
     QUdpSocket* udpSocket = qobject_cast<QUdpSocket*>(sender());
     while (udpSocket->hasPendingDatagrams()) {
              QByteArray datagram;
@@ -245,17 +326,17 @@ void CuteDrone::videoReady() {
 
              udpSocket->readDatagram(datagram.data(), datagram.size(),
                                      &sender, &senderPort);
-
-             if (video.isWritable()) {
+             decodeTransform(datagram);
+            /* if (video.isWritable()) {
                 video.write(datagram);
                 video.flush();
-             }
+             }*/
 
          }
-
 }
 
 void CuteDrone::telemetryReady() {
+    qDebug() << ">>" << __PRETTY_FUNCTION__;
     if (log.isOpen()==false) {
         log.open(QIODevice::WriteOnly);
     }
@@ -286,5 +367,6 @@ void CuteDrone::telemetryReady() {
              }
 
          }
+    qDebug() << "<<" << __PRETTY_FUNCTION__;
 
 }
