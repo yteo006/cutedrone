@@ -4,6 +4,10 @@
 http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
 
+= Screenshots =
+[tba]
+
+----
 = Scripts available =
 I am producing scripts for the installation etc at the sametime for later usage. Feel free to use them. They are available in svn.
 
