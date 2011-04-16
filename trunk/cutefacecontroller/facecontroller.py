@@ -68,15 +68,15 @@ def detect_and_draw(img, cascade):
 		xval = w-x
 		yval = h-y
                 if previousPos:
-                    if (xval>previousPos[0] and (xval-previousPos[0])>10):
-                       controlMessage("right")
-                    elif (xval<previousPos[0] and (previousPos[0]-xval)>10):
+                    if (xval>previousPos[0] and (xval-previousPos[0])>20):
                        controlMessage("left")
+                    elif (xval<previousPos[0] and (previousPos[0]-xval)>20):
+                       controlMessage("right")
                     else:
                        controlMessage("stayx")
-                    if (yval>previousPos[1] and (yval-previousPos[1])>10):
+                    if (yval>previousPos[1] and (yval-previousPos[1])>20):
                        controlMessage("up")
-                    elif (yval<previousPos[1] and (previousPos[1]-yval)>10):
+                    elif (yval<previousPos[1] and (previousPos[1]-yval)>20):
                        controlMessage("down")
                     else:
                        controlMessage("stayy")
