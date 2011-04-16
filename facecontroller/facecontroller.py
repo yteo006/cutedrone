@@ -75,20 +75,26 @@ def detect_and_draw(img, cascade):
 		yval = y+h/2
                 print "(%sx%s,%sx%s)" % (x,y,w,h)
 		print "(%s,%s)=%s" % (xcenter,xval,xcenter-xval)
+                msgs = False
                 if 1:
                 #if previousPos:
                     if (xval>170):
                        controlMessage("left")
+                       msgs = True
                     elif (xval<130):
                        controlMessage("right")
-                    else:
-                       controlMessage("stayx")
+                       msgs = True
+                    #else:
+                    #	   controlMessage("stayx")
                     if (w>centersize):
+                       msgs = True
                        controlMessage("up")
                     elif (w<innercentersize):
+                       msgs = True
                        controlMessage("down")
-                    else:
-                       controlMessage("stayy")
+                    
+                    if not msgs:
+                       controlMessage("stay")
                 #previousPos = (xval,yval)
 	#	if (xval
 		
