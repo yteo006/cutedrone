@@ -1,5 +1,5 @@
 #summary Notes and information for Meegathon competition entry quick-and-dirty cuteface
-<wiki:toc max_depth="3" />
+<wiki:toc max_depth="5" />
 
 http://summit.meegonetwork.fi/competition
 * WORK IN PROGRESS *
@@ -92,6 +92,12 @@ mkdir opencv-build
 cd opencv-build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_QT=ON -D WITH_TBB=YES -D WITH_V4L=1 -D TBB_INCLUDE_DIRS=/usr/include/tbb -D BUILD_SAMPLES=ON -D PYTHON_INCLUDE_DIRS=/usr/include/python2.7 ../opencv
 make -j`cat /proc/cpuinfo|grep processor|wc -l`
+}}}
+
+===== edit cvconfig.h =====
+You might need to modify the cvconfig.h in build directory. If the build fails then add following line there:
+{{{
+#define HAVE_CAMV4L
 }}}
 
 = Links / Sources =
