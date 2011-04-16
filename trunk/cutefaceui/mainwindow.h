@@ -17,6 +17,7 @@ public:
     ~MainWindow();
 
 public slots:
+    void controlMessageReceived();
     void updateImage(QImage img);
     void on_pushButtonTurnLeft_clicked() { drone->turnLeft(); }
     void on_pushButtonTurnRight_clicked() { drone->turnRight(); }
@@ -33,6 +34,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     CuteDrone* drone;
+    QUdpSocket* controlSocket;
 };
 
 #endif // MAINWINDOW_H
