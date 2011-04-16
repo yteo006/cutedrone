@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     drone->start();
 
     int retval = a.exec();
+
     drone->deleteLater();
     return 0;
 
